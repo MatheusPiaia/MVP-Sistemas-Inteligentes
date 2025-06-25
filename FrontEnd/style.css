@@ -1,0 +1,88 @@
+/* style.css */
+
+body {
+  background: linear-gradient(to bottom right, #f3f4f6, #e0e7ff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  font-weight: bold;
+  color: #4f46e5;
+}
+
+.table {
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #4f46e5;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+}
+
+.btn-success {
+  background-color: #16a34a;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #15803d;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.modal-content {
+  border-radius: 12px;
+}
+
+.modal-header {
+  background-color: #4f46e5;
+  color: white;
+  border-bottom: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.modal-footer {
+  border-top: none;
+}
+
+input.form-control, select.form-select {
+  border-radius: 8px;
+  box-shadow: none;
+  border-color: #d1d5db;
+}
+
+input.form-control:focus, select.form-select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+}
+
+.swal2-popup {
+  font-size: 1rem !important;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+img {
+  border-radius: 50%;
+  border: 3px solid #4f46e5;
+}
