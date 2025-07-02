@@ -1,6 +1,6 @@
 // script.js
 
-const apiUrl = 'http://localhost:5000/usuario'; // ajuste conforme seu backend
+const apiUrl = 'http://127.0.0.1:5000/usuarios';
 
 // Função para buscar usuários e preencher a tabela
 async function carregarUsuarios() {
@@ -8,12 +8,13 @@ async function carregarUsuarios() {
   tbody.innerHTML = "";
   try {
     const response = await fetch(apiUrl);
-    const usuarios = await response.json();
-    usuarios.forEach(user => {
+    const data = await response.json();
+    console.log(usuarios)
+    data.usuarios.forEach(user => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${user.name}</td>
-        <td>${user.personality}</td>
+        <td>${user.personality === "Introvert" ? "Introvertido" : "Extrovertido"}</td>
         <td><button class="btn btn-danger btn-sm" onclick="deletarUsuario('${user.name}')">
           <i class="bi bi-trash"></i></button></td>
       `;
@@ -28,8 +29,14 @@ async function carregarUsuarios() {
 async function deletarUsuario(nome) {
   if (!confirm(`Deseja realmente deletar ${nome}?`)) return;
   try {
-    const response = await fetch(`${apiUrl}/${nome}`, { method: 'DELETE' });
+    const response = await fetch(`http://127.0.0.1:5000/usuario?name=${nome}`, { method: 'DELETE' });
     if (response.ok) {
+      Swal.fire({
+        icon: 'success',        
+        title: `Usuário ${nome} deletado com sucesso`,
+        showConfirmButton: false,
+        timer: 3000
+      });
       await carregarUsuarios();
     } else {
       alert("Erro ao deletar usuário");
@@ -41,9 +48,10 @@ async function deletarUsuario(nome) {
 
 // Função para enviar formulário
 async function enviarFormulario() {
-  const form = document.getElementById("formularioPersonalidade");
+  const form = document.getElementById("formularioPersonalidade"); 
+ 
   const data = {
-    name: form.name.value,
+    name: form.name.value.trim(),
     time_spent_alone: parseInt(form.time_spent_alone.value),
     stage_fear: form.stage_fear.value,
     social_event_attendance: parseInt(form.social_event_attendance.value),
@@ -51,20 +59,24 @@ async function enviarFormulario() {
     drained_after_socializing: form.drained_after_socializing.value,
     friends_circle_size: parseInt(form.friends_circle_size.value),
     post_frequency: parseInt(form.post_frequency.value)
-  };
+  }; 
+
+  const formData = new FormData();
+  for (const key in data) {
+  formData.append(key, data[key]); // agora com inteiros reais
+  }
 
   try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+    const response = await fetch(`http://127.0.0.1:5000/usuario`, {
+      method: 'POST',      
+      body: formData
     });
     const result = await response.json();
 
     if (response.ok) {
       Swal.fire({
-        icon: 'success',
-        title: `Sua personalidade é ${result.personality}`,
+        icon: 'success',        
+        title: `Sua personalidade é ${result.personality === "Introvert" ? "Introvertido" : "Extrovertido"}`,
         showConfirmButton: false,
         timer: 3000
       });
@@ -86,7 +98,11 @@ async function enviarFormulario() {
 document.addEventListener("DOMContentLoaded", () => {
   carregarUsuarios();
   document.getElementById("abrirModal").addEventListener("click", () => {
-    new bootstrap.Modal(document.getElementById('modalFormulario')).show();
+    new bootstrap.Modal(document.getElementById('modalFormulario'), {
+      backdrop: true, 
+      keyboard: true,
+      focus: true
+    }).show();
   });
   document.getElementById("btnCancelar").addEventListener("click", () => {
     bootstrap.Modal.getInstance(document.getElementById('modalFormulario')).hide();

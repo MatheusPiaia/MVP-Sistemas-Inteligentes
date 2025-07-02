@@ -12,7 +12,8 @@ from model.avaliador import Avaliador
 from model.modelo import Model
 from model.pipeline import Pipeline
 from model.usuario import Usuario
-#from model.label_encoder import Label
+from model.label_encoder import Label
+from model.carregador import Carregador
 
 
 db_path = "database/"

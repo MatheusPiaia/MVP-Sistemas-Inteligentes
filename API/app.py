@@ -5,7 +5,7 @@ import joblib
 
 from sqlalchemy.exc import IntegrityError
 
-from model import Session, Model, Avaliador, Usuario, Pipeline, PreProcessador
+from model import Session, Model, Avaliador, Usuario, Pipeline, PreProcessador, Label
 from logger import logger
 from schemas import *
 from flask_cors import CORS
@@ -13,7 +13,7 @@ from flask_cors import CORS
 
 # Instanciando o objeto OpenAPI
 info = Info(title="Minha API", version="1.0.0")
-app = OpenAPI(__name__, info=info, static_folder='../front', static_url_path='/front')
+app = OpenAPI(__name__, info=info, static_folder='../FrontEnd', static_url_path='/FrontEnd')
 CORS(app)
 
 # Definindo tags para agrupamento das rotas
@@ -26,7 +26,7 @@ usuario_tag = Tag(name="Usuario", description="Adição, visualização, remoç�
 def home():
     """Redireciona para o index.html do frontend.
     """
-    return redirect('/openapi')
+    return redirect('/FrontEnd/index.html')
 
 
 # Rota para documentação OpenAPI
@@ -63,11 +63,10 @@ def get_usuarios():
 def predict(form: UsuarioSchema):
     '''Adiciona um novo usuario a base de dados
         Retorna uma representação dos usuarios e a predição da personalidade
-    '''
-
+    '''    
     preprocessador = PreProcessador()
     pipeline = Pipeline()
-    #label_encoder = Label()
+    label_encoder = Label()
 
     # Recuperando dados do formulario
     name = form.name
@@ -86,10 +85,11 @@ def predict(form: UsuarioSchema):
     model_path = './MachineLearning/pipelines/rf_personality_pipeline.pkl'   
     modelo = pipeline.carrega_pipeline(model_path)
     #Realizando a predição
-    #modelo = joblib.load("./MachineLearning/pipelines/rf_personality_pipeline.pkl")
-    label_encoder = joblib.load("./MachineLearning/encoder/label_encoder.pkl")    
-    y_pred_encoded = modelo.predict(X_input)[0]
-    personality = label_encoder.inverse_transform([y_pred_encoded])[0]
+    
+    encoder_path = './MachineLearning/encoder/label_encoder.pkl'
+    encoder = label_encoder.carrega_label_encoder(encoder_path)       
+    y_pred_encoded = modelo.predict(X_input)[0]    
+    personality = encoder.inverse_transform([y_pred_encoded])[0]
 
     usuario = Usuario(
         name = name,
@@ -109,7 +109,7 @@ def predict(form: UsuarioSchema):
         session = Session()
 
         # Checanco se usuario já existe na base
-        if session.query(Usuario).filter(Usuario.name == form.name).first():
+        if session.query(Usuario).filter(Usuario.name == form.name).first():            
             error_msg = "Usuario já existente na base"
             logger.warning(f"Erro ao adicionar usuario '{usuario.name}', {error_msg}")
             return {"message": error_msg}, 409
