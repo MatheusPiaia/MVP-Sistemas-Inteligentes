@@ -53,7 +53,7 @@ Foram testados 4 modelos de ML sendo eles:
 - Random Forest
 
 E para avaliação foi utilizado o parâmetro de Acurácia, aonde o Random Forest (RF) se mostrou melhor, com 93,92% de acurácia.
-O dataset utilizado foi retirado do site [Kagle](https://www.kagle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data)
+O dataset utilizado foi retirado do site [Kaggle](https://www.kaggle.com/datasets/rakeshkapilavai/extrovert-vs-introvert-behavior-data)
 
 # Funcionalidades
 - [x] Cadastro de Usuário
