@@ -17,13 +17,13 @@ python -m venv env
 ```
 .\env\Scripts\activate
 ```
-Após clonar o repositório, é necessário ir ao diretório raiz, pelo terminal e executar:
+Após clonar o repositório, é necessário ir ao diretório API, pelo terminal e executar:
 ```
 pip install -r requirements.txt
 ```
 Este comando instala as dependências/bibliotecas, descritas no arquivo requirements.txt.
 
-Para executar a API basta executar:
+Para executar a API basta executar (necessário estar dentro do diretório API):
 ```
 flask run --host 0.0.0.0 --port 5000
 ```
@@ -31,8 +31,8 @@ Em modo de desenvolvimento é recomendado executar utilizando o parâmetro reloa
 ```
 flask run --host 0.0.0.0 --port 5000 --reload
 ```
-Abra o http://localhost:5000/#/ no navegador para acessar a homepage da aplicação.
-Abra o http://localhost:5000/docs/ no navegador para verificar a documentação da API em execução.
+Abra o http://localhost:5000/#/ no navegador para acessar a homepage da aplicação. 
+Abra o http://localhost:5000/docs/ no navegador para verificar a documentação da API em execução
 
 # Descrição
 Aplicação desenvolvida como MVP para a Sprint: Sistemas Inteligentes.
