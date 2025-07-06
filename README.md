@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ```
 Este comando instala as dependências/bibliotecas, descritas no arquivo requirements.txt.
 
-Para executar a API basta executar (necessário estar dentro do diretório API):
+Para executar a API acessar o diretório "API" e executar:
 ```
 flask run --host 0.0.0.0 --port 5000
 ```
